@@ -65,8 +65,14 @@ for (let i = 0; i < word.length; i++) {
   return score;
 }
 
-let scrabbleScore;
-
+function scrabbleScore(word) {
+  word = word.toLowerCase();
+  let score = 0;
+  for (let i = 0; i < word.length; i++) {
+    score += newPointStructure[word[i]];
+  }
+  return score;
+}
 
 const scoringAlgorithms = [
 Object({ name: "Simple Score", description: "Each letter is worth 1 point.", scoringFunction: simpleScore}),
@@ -86,7 +92,20 @@ function scorerPrompt() {
   }
 }
 
-function transform() {};
+// Use the oldPointStructure to write a new function so that a single search will identify the point value for each letter.
+
+function transform(obj) {
+  // create an array to hold the point/alphabet objects
+  let newPointObject = {};
+  for (key in obj) {
+    for (let i = 0; i < obj[key].length; i++) {
+      let letterItem = obj[key][i];
+      letterItem = letterItem.toLowerCase();
+      newPointObject[`${letterItem}`] = Number(key); 
+    }
+  }
+  return newPointObject;
+}
 
 let newPointStructure = transform(oldPointStructure);
 
